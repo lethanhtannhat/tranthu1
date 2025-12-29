@@ -234,41 +234,32 @@ with open("test.csv", encoding="utf-8-sig") as file:
         exit()
 
     if index >= total_rows:
-        index = 0
+        print(f"STOPPING: Out of data! Current index {index} >= Total rows {total_rows}. Please add more data to test.csv.")
+        exit(1)
 
     row = reader[index]
 
 time.sleep(1)
-
-driver.get('https://docs.google.com/forms/d/e/1FAIpQLSc88gWwyLAW7cok0cJQqP2aRHVBgE6iGvVXQ67oTzBPnzN6ZQ/viewform')
-next_button = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="mG61Hd"]/div[2]/div/div[3]/div[1]/div[1]/div')))
-driver.execute_script("arguments[0].click();", next_button)
-tracnghiem(row[0],1,4)
-tracnghiem(row[1],2,4)
-submit_button = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="mG61Hd"]/div[2]/div/div[3]/div[1]/div[1]/div[2]')))
-driver.execute_script("arguments[0].click();", submit_button)
-tracnghiem(row[2],1,3)
-tracnghiem(row[3],2,3)
-tracnghiem(row[4],3,5)
-tracnghiem(row[5],4,2)
-submit_button = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="mG61Hd"]/div[2]/div/div[3]/div[1]/div[1]/div[2]')))
-driver.execute_script("arguments[0].click();", submit_button)
-luoitracnghiem(row[6],row[7],row[8],row[9],row[10],stt=1,colums=5)
-luoitracnghiem(row[11],row[12],row[13],row[14],row[15],stt=2,colums=5)
-luoitracnghiem(row[16],row[17],row[18],row[19],stt=3,colums=5)
-submit_button = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="mG61Hd"]/div[2]/div/div[3]/div[1]/div[1]/div[2]')))
-driver.execute_script("arguments[0].click();", submit_button)
+driver.get('https://docs.google.com/forms/d/e/1FAIpQLSeQERSdPsc8Kh3SV92kOhjc1d9qLyA4X0z6JgMaxa5OgvKyhQ/viewform')
 time.sleep(0.2)
+fill_form(row[0],0)
 submit_button = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="mG61Hd"]/div[2]/div/div[3]/div[1]/div[1]/div[2]')))
 driver.execute_script("arguments[0].click();", submit_button)
 time.sleep(0.6)
-time.sleep(random.randint(60,180))
 
-time.sleep(1)
-driver.close()
+
+# Update index IMMEDIATELY after submission attempt
 with open("index.txt", "w") as f:
     f.write(str(index + 1))
-time.sleep(10)
+print(f"Updated index to {index + 1}")
+
+time.sleep(random.randint(60,100))     
+driver.close()
+
+
+
+
+
 
 
 
