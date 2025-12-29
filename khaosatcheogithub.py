@@ -263,8 +263,8 @@ time.sleep(1)
 driver.get('https://docs.google.com/forms/d/e/1FAIpQLSeQERSdPsc8Kh3SV92kOhjc1d9qLyA4X0z6JgMaxa5OgvKyhQ/viewform')
 time.sleep(0.2)
 fill_form(row[0],0)
-submit_button = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="mG61Hd"]/div[2]/div/div[3]/div[1]/div[1]/div[2]')))
-driver.execute_script("arguments[0].click();", submit_button)
+next_button = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="mG61Hd"]/div[2]/div/div[3]/div[1]/div[1]/div')))
+driver.execute_script("arguments[0].click();", next_button)
 time.sleep(0.6)
 
 
