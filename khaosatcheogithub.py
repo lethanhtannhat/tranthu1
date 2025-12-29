@@ -218,26 +218,46 @@ def luoitracnghiem(*args, stt, colums):
 
 def luoihopkiem(*args, stt, rows, colums):
     hk_luoi(*args, stt=stt, rows=rows, colums=colums)
-try:
-    with open("index.txt", "r") as f:
-        index = int(f.read().strip())
-except FileNotFoundError:
-    index = 0
+import os
 
-# Mở và đọc đúng dòng trong CSV
-with open("test.csv", encoding="utf-8-sig") as file:
-    reader = list(csv.reader(file))
-    total_rows = len(reader)
+# ... (Previous imports) ...
+
+try:
+    if not os.path.exists("test.csv"):
+        print("ERROR: test.csv file not found!")
+        exit(1)
+
+    try:
+        with open("index.txt", "r") as f:
+            content = f.read().strip()
+            if not content:
+                index = 0
+            else:
+                index = int(content)
+    except FileNotFoundError:
+        index = 0
+    except ValueError:
+        index = 0
+
+    # Mở và đọc đúng dòng trong CSV
+    with open("test.csv", encoding="utf-8-sig") as file:
+        reader = list(csv.reader(file))
+        total_rows = len(reader)
 
     if total_rows == 0:
         print("File CSV rỗng!")
-        exit()
+        exit(1)
 
     if index >= total_rows:
         print(f"STOPPING: Out of data! Current index {index} >= Total rows {total_rows}. Please add more data to test.csv.")
         exit(1)
 
     row = reader[index]
+    print(f"Processing row index {index}: {row[:3]}...") # Log progress
+
+except Exception as e:
+    print(f"CRITICAL ERROR in initialization: {e}")
+    exit(1)
 
 time.sleep(1)
 driver.get('https://docs.google.com/forms/d/e/1FAIpQLSeQERSdPsc8Kh3SV92kOhjc1d9qLyA4X0z6JgMaxa5OgvKyhQ/viewform')
