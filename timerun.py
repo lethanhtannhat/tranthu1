@@ -31,12 +31,17 @@ for row in rows:
 
         if scheduled_utc <= now_utc:
             print("its time to start:", scheduled_vn)
-            os.system("python khaosatcheogithub.py")
-            executed_count += 1
+            exit_code = os.system("python khaosatcheogithub.py")
+            
+            if exit_code == 0:
+                executed_count += 1
+            else:
+                print(f"Error running script (code {exit_code}), keeping row: {row}")
+                remaining_rows.append(row)
         else:
             remaining_rows.append(row)
     except Exception as e:
-        print("srror", row, "|", e)
+        print("error", row, "|", e)
         remaining_rows.append(row)
 
 # Ghi lại file time.csv đã cập nhật
